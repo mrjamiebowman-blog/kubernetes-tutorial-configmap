@@ -1,3 +1,7 @@
+**/hostsettings.json
+**/appsettings.json
+**/appsettings.*.json
+
 **/.classpath
 **/.dockerignore
 **/.env

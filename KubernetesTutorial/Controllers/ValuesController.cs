@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 
 namespace KubernetesTutorial.Controllers
 {
@@ -12,16 +13,18 @@ namespace KubernetesTutorial.Controllers
     public class ValuesController : ControllerBase
     {
         private readonly ILogger<ValuesController> _logger;
+        private readonly IOptionsMonitor<ValuesConfiguration> _valuesConfiguration;
 
-        public ValuesController(ILogger<ValuesController> logger)
+        public ValuesController(ILogger<ValuesController> logger, IOptionsMonitor<ValuesConfiguration> valuesConfiguration)
         {
             _logger = logger;
+            _valuesConfiguration = valuesConfiguration;
         }
 
         [HttpGet]
         public string Get()
         {
-            return "value";
+            return _valuesConfiguration?.CurrentValue?.Message;
         }
     }
 }
