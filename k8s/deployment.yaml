@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubernetes-tutorial
+  namespace: mrjamiebowman
+  labels:
+    app: kubernetes-tutorial
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kubernetes-tutorial
+  template:
+    metadata:
+      labels:
+        app: kubernetes-tutorial
+    spec:
+      containers:
+      - name: kubernetes-tutorial
+        image: mrjamiebowman/kubernetes-tutorial-configmap
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: config-volume
+          mountPath: /app/config
+      volumes:
+      - name: config-volume
+        configMap:
+          name: demo-config
