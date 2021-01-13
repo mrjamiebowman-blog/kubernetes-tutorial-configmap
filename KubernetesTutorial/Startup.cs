@@ -24,6 +24,7 @@ namespace KubernetesTutorial
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // this will inject the value configuration into the controller.
             services.Configure<ValuesConfiguration>(Configuration.GetSection(ValuesConfiguration.Position));
             services.AddControllers();
         }

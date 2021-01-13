@@ -24,6 +24,9 @@ namespace KubernetesTutorial.Controllers
         [HttpGet]
         public string Get()
         {
+            if (_valuesConfiguration?.CurrentValue?.Message == null)
+                return "Configuration is NULL";
+
             return _valuesConfiguration?.CurrentValue?.Message;
         }
     }
