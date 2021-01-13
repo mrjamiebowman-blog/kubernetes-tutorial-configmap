@@ -19,11 +19,11 @@ spec:
       - name: kubernetes-tutorial
         image: mrjamiebowman/kubernetes-tutorial-configmap
         ports:
-        - containerPort: 80
+        - containerPort: 8080
         volumeMounts:
-        - name: config-volume
-          mountPath: /app/config
+        - name: appsettings-volume
+          mountPath: /app/Settings
       volumes:
-      - name: config-volume
+      - name: appsettings-volume
         configMap:
-          name: demo-config
+          name: appsettings
