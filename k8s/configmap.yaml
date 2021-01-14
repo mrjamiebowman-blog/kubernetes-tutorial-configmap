@@ -15,6 +15,6 @@ data:
       },
       "AllowedHosts": "*",
       "ValuesConfiguration": {
-        "Message": "The configuration is working!" 
+        "Message": "The configuration is working! Jamie was here!" 
       } 
     }
