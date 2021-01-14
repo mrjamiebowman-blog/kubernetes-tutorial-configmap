@@ -13,21 +13,43 @@ namespace KubernetesTutorial.Controllers
     public class ValuesController : ControllerBase
     {
         private readonly ILogger<ValuesController> _logger;
-        private readonly IOptionsMonitor<ValuesConfiguration> _valuesConfiguration;
+        private readonly IOptionsMonitor<ValuesConfiguration> _valuesMonitoredConfiguration;
+        private readonly ValuesConfiguration _valuesConfiguration;
 
-        public ValuesController(ILogger<ValuesController> logger, IOptionsMonitor<ValuesConfiguration> valuesConfiguration)
+        public ValuesController(ILogger<ValuesController> logger, IOptionsMonitor<ValuesConfiguration> valuesMonitoredConfiguration, ValuesConfiguration valuesConfiguration)
         {
             _logger = logger;
+            _valuesMonitoredConfiguration = valuesMonitoredConfiguration;
             _valuesConfiguration = valuesConfiguration;
         }
 
+        /// <summary>
+        /// Standard method for getting configuration values. This does not update if you edit the appsettings.json.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public string Get()
         {
-            if (_valuesConfiguration?.CurrentValue?.Message == null)
+            if (_valuesConfiguration?.Message == null)
                 return "Configuration is NULL";
 
-            return _valuesConfiguration?.CurrentValue?.Message;
+            return _valuesConfiguration?.Message;
+        }
+
+        /// <summary>
+        /// Will monitor the appsettings.json file for changes and update values when changed.
+        /// This doesn't matter if you are using Kubernetes ConfigMaps because you more than likely will delete and re-create the pods.
+        /// However, if you did get terminal access to each pod and updated the config it would re-load. This is not best practice...
+        /// This technique is great for local development.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("ioptionsmonitor")]
+        public string GetIOptionsMonitor()
+        {
+            if (_valuesMonitoredConfiguration?.CurrentValue?.Message == null)
+                return "IOptionsMonitor Configuration is NULL";
+
+            return "IOptionsMonitor Configuration: " + _valuesMonitoredConfiguration?.CurrentValue?.Message;
         }
     }
 }
